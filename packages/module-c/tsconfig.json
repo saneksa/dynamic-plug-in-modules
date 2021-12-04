@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../platform" },
+    { "path": "../module-a" },
+    { "path": "../module-b" }
+  ]
+}
