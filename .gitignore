@@ -4,9 +4,12 @@
 node_modules
 /.pnp
 .pnp.js
-
+dist
 # testing
 /coverage
+
+
+tsconfig.tsbuildinfo
 
 # production
 /build

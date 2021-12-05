@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": "./packages",
+    "rootDir": "./packages",
     "target": "ES2016",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "declaration": true,
+    "declarationDir": "./types",
     "skipLibCheck": true,
     "sourceMap": true,
     "esModuleInterop": true,
