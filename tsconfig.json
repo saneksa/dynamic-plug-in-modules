@@ -22,5 +22,10 @@
     "jsx": "react-jsx",
     "locale": "en"
   },
-  "exclude": ["**/node_modules", "**/dist", "./webpack.config.js"]
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "./webpack.config.js",
+    "./babel.config.js"
+  ]
 }
