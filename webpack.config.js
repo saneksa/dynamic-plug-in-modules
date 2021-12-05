@@ -2,26 +2,31 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const mode = process.env.NODE_ENV;
 const isDevelopment = process.env.NODE_ENV === "development";
 
 module.exports = {
+  mode,
   context: __dirname,
   entry: {
     app: "./packages/core/src/index.tsx",
   },
-  mode,
+  output: {
+    path: path.resolve(__dirname, "dist"),
+  },
   target: isDevelopment ? "web" : "browserslist",
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "ts-loader",
         exclude: /node_modules/,
+        loader: "babel-loader",
         options: {
-          transpileOnly: true,
-          projectReferences: true,
+          plugins: [
+            isDevelopment && require.resolve("react-refresh/babel"),
+          ].filter(Boolean),
         },
       },
     ],
@@ -29,13 +34,13 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
-  output: {
-    path: path.resolve(__dirname, "dist"),
-  },
+
   devServer: {
     hot: true,
-    compress: true,
     port: 3000,
+    client: {
+      overlay: false,
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -53,6 +58,10 @@ module.exports = {
     new webpack.WatchIgnorePlugin({
       paths: [/\.js$/, /\.d\.ts$/],
     }),
-  ],
+    isDevelopment &&
+      new ReactRefreshWebpackPlugin({
+        overlay: false,
+      }),
+  ].filter(Boolean),
   devtool: isDevelopment ? "inline-source-map" : false,
 };

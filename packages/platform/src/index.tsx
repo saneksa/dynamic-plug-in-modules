@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 export const getPlatformEntrypoint = () =>
   ReactDOM.render(
     <React.StrictMode>
-      <div>dddeee</div>
+      <div>test</div>
     </React.StrictMode>,
     document.getElementById("root")
   );
