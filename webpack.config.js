@@ -11,7 +11,7 @@ module.exports = {
   mode,
   context: __dirname,
   entry: {
-    app: "./packages/core/src/index.tsx",
+    app: "./packages/core/src/index.ts",
   },
   output: {
     path: path.resolve(__dirname, "dist"),

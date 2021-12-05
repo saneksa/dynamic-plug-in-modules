@@ -23,6 +23,7 @@
     "@types/node": "16.11.11",
     "@types/react": "17.0.37",
     "@types/react-dom": "17.0.11",
+    "@types/webpack-env": "1.16.3",
     "babel-loader": "8.2.3",
     "cross-env": "7.0.3",
     "fork-ts-checker-webpack-plugin": "6.5.0",
@@ -35,7 +36,8 @@
     "web-vitals": "2.1.2",
     "webpack": "5.64.4",
     "webpack-cli": "4.9.1",
-    "webpack-dev-server": "4.6.0"
+    "webpack-dev-server": "4.6.0",
+    "prettier": "2.5.1"
   },
   "eslintConfig": {
     "extends": [

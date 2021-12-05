@@ -10,7 +10,10 @@ module.exports = {
     ],
   ],
   plugins: [
-    "@babel/proposal-class-properties",
+    ["@babel/plugin-proposal-class-properties", { loose: false }],
     "@babel/proposal-object-rest-spread",
   ],
+  assumptions: {
+    setPublicClassFields: false,
+  },
 };
