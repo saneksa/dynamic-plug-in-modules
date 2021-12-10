@@ -1,11 +1,25 @@
 import { Expander } from "@saneksa/core/src";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import type { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 const App: FC = observer((props) => {
-  console.warn(toJS(Expander.instance.modules));
+  const [count, setCount] = useState(0);
+
+  console.warn(toJS(Expander.instance.connectedModules));
   console.warn(toJS(Expander.instance.routes));
+
+  useEffect(() => {
+    if (count === 1) {
+      Expander.instance.build(["platform", "module-a"]);
+    } else if (count === 2) {
+      Expander.instance.build(["platform", "module-a", "module-b"]);
+    } else if (count === 3) {
+      Expander.instance.build(["platform", "module-a", "module-b", "module-c"]);
+    } else {
+      setCount(0);
+    }
+  }, [count]);
 
   return (
     <div>
@@ -16,11 +30,16 @@ const App: FC = observer((props) => {
         ))}
 
         <button
+          style={{
+            position: "fixed",
+            top: "10px",
+            right: "10px",
+          }}
           onClick={() => {
-            Expander.instance.build(["platform", "module-a"]);
+            setCount((prev) => prev + 1);
           }}
         >
-          Подключить модуль А
+          Подключить модуль ({count})
         </button>
       </div>
     </div>

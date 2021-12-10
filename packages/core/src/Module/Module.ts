@@ -10,43 +10,43 @@ type TError = {
 
 type TModuleParams = {
   name: string;
-  routesGetters: () => TRoute[];
-  errorsGetters: () => TError[];
-  entrypointGetters: () => void;
+  routesGetters?: () => TRoute[];
+  errorsGetters?: () => TError[];
+  entrypointGetters?: () => void;
 };
 
 interface IModule {
-  getRoutesGetters(): () => TRoute[];
-  getErrorsGetters(): () => TError[];
-  getEntrypointGetters(): () => void;
+  getRoutesGetters(): (() => TRoute[]) | null;
+  getErrorsGetters(): (() => TError[]) | null;
+  getEntrypointGetters(): (() => void) | null;
 }
 
 abstract class Module implements IModule {
   #name: string;
-  #routesGetters: () => TRoute[];
-  #errorsGetters: () => TError[];
-  #entrypointGetters: () => void;
+  #routesGetters: (() => TRoute[]) | null;
+  #errorsGetters: (() => TError[]) | null;
+  #entrypointGetters: (() => void) | null;
 
   constructor(params: TModuleParams) {
     this.#name = params.name;
-    this.#routesGetters = params.routesGetters;
-    this.#errorsGetters = params.errorsGetters;
-    this.#entrypointGetters = params.entrypointGetters;
+    this.#routesGetters = params.routesGetters ?? null;
+    this.#errorsGetters = params.errorsGetters ?? null;
+    this.#entrypointGetters = params.entrypointGetters ?? null;
   }
 
   public get name() {
     return this.#name;
   }
 
-  public getRoutesGetters(): () => TRoute[] {
+  public getRoutesGetters() {
     return this.#routesGetters;
   }
 
-  public getErrorsGetters(): () => TError[] {
+  public getErrorsGetters() {
     return this.#errorsGetters;
   }
 
-  public getEntrypointGetters(): () => void {
+  public getEntrypointGetters() {
     return this.#entrypointGetters;
   }
 }

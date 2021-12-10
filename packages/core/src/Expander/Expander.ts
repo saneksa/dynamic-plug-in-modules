@@ -1,12 +1,24 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import {
+  action,
+  computed,
+  makeObservable,
+  observable,
+  runInAction,
+} from "mobx";
 import type { Module } from "..";
 
-type TPrivateFields = "_modules" | "_routes" | "expandRoutes";
+type TPrivateFields =
+  | "_modules"
+  | "_routes"
+  | "_connectedModules"
+  | "expandRoutes"
+  | "clear";
 
 class Expander {
   public static instance: Expander;
 
   private _modules = new Map<string, Module>();
+  private _connectedModules = new Set<Module>();
 
   private _routes: any[] = [];
 
@@ -20,9 +32,12 @@ class Expander {
     makeObservable<this, TPrivateFields>(this, {
       _modules: observable,
       _routes: observable,
+      _connectedModules: observable,
       expandModules: action.bound,
       expandRoutes: action.bound,
+      clear: action.bound,
       modules: computed,
+      connectedModules: computed,
     });
   }
 
@@ -30,8 +45,13 @@ class Expander {
   public get modules() {
     return Array.from(this._modules.values());
   }
+
   public get routes() {
     return this._routes;
+  }
+
+  public get connectedModules() {
+    return Array.from(this._connectedModules.values());
   }
 
   // -----------------------ACTIONS-------------------------------------
@@ -39,18 +59,30 @@ class Expander {
     this._modules.set(module.name, module);
   }
 
-  private expandRoutes(routes: any[]) {
-    this._routes.push(routes);
+  private expandRoutes(routes: any[] | null) {
+    if (routes) {
+      this._routes.push(routes);
+    }
+  }
+
+  private clear() {
+    this._connectedModules.clear();
+    this._routes = [];
   }
 
   //---------------------HELPERS------------------------------
 
   public build(moduleNames: string[]) {
+    this.clear();
     moduleNames.forEach((name) => {
       const module = this._modules.get(name);
 
       if (module) {
-        this.expandRoutes(module.getRoutesGetters()());
+        runInAction(() => {
+          this._connectedModules.add(module);
+        });
+
+        this.expandRoutes(module.getRoutesGetters()?.() ?? null);
       }
     });
 
@@ -58,7 +90,7 @@ class Expander {
       const module = this._modules.get(name);
 
       if (module) {
-        module.getEntrypointGetters()();
+        module.getEntrypointGetters()?.();
       }
     });
   }
