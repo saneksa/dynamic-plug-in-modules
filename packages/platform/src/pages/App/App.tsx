@@ -17,6 +17,7 @@ const App: FC = observer((props) => {
     } else if (count === 3) {
       Expander.instance.build(["platform", "module-a", "module-b", "module-c"]);
     } else {
+      Expander.instance.build(["platform"]);
       setCount(0);
     }
   }, [count]);
@@ -25,7 +26,7 @@ const App: FC = observer((props) => {
     <div>
       Apps
       <div>
-        {toJS(Expander.instance.modules).map((m) => (
+        {toJS(Expander.instance.connectedModules).map((m) => (
           <div>{m.name}</div>
         ))}
 
