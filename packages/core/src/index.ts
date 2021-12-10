@@ -8,8 +8,8 @@ import { Expander } from "./Expander/Expander";
 
 module?.hot?.accept?.();
 
-function importAll(r: any) {
-  r.keys().forEach(r);
+function importAll(ctx: __WebpackModuleApi.RequireContext) {
+  ctx.keys().forEach(ctx);
 }
 
 export * from "./Expander/Expander";
