@@ -35,6 +35,8 @@ class Expander {
       _connectedModules: observable,
       expandModules: action.bound,
       expandRoutes: action.bound,
+      connectModules: action.bound,
+      disableModules: action.bound,
       clear: action.bound,
       modules: computed,
       connectedModules: computed,
@@ -63,6 +65,20 @@ class Expander {
     if (routes) {
       this._routes.push(routes);
     }
+  }
+
+  public connectModules(moduleNames: string[]) {
+    this.build([...this.connectedModules.map((m) => m.name), ...moduleNames]);
+  }
+
+  public disableModules(moduleNames: string[]) {
+    const moduleNamesSet = new Set(moduleNames);
+
+    const connectModuleNames = this.connectedModules
+      .filter((m) => !moduleNamesSet.has(m.name))
+      .map((m) => m.name);
+
+    this.build(connectModuleNames);
   }
 
   private clear() {

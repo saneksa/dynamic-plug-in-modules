@@ -1,7 +1,7 @@
 import { Expander } from "@saneksa/core/src";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 
 const App: FC = observer((props) => {
   const [count, setCount] = useState(0);
@@ -22,26 +22,41 @@ const App: FC = observer((props) => {
     }
   }, [count]);
 
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    console.warn("submit", e.target.value);
+  }, []);
+
   return (
     <div>
       Apps
       <div>
-        {toJS(Expander.instance.connectedModules).map((m) => (
-          <div>{m.name}</div>
+        {Expander.instance.connectedModules.map((m) => (
+          <div key={m.name}>{m.name}</div>
         ))}
 
-        <button
+        <div
           style={{
             position: "fixed",
             top: "10px",
             right: "10px",
           }}
-          onClick={() => {
-            setCount((prev) => prev + 1);
-          }}
         >
-          Подключить модуль ({count})
-        </button>
+          <form onSubmit={handleSubmit}>
+            <select
+              multiple={true}
+              onChange={(e) => {
+                console.warn(e.target.name, e.target.value);
+              }}
+            >
+              <option value="platform">platform</option>
+              <option value="module-a">module-a</option>
+              <option value="module-b">module-b</option>
+              <option value="module-c">module-c</option>
+            </select>
+            <button type="submit">1231231</button>
+          </form>
+        </div>
       </div>
     </div>
   );
