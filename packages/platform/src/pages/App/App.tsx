@@ -22,11 +22,6 @@ const App: FC = observer((props) => {
     }
   }, [count]);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    console.warn("submit", e.target.value);
-  }, []);
-
   return (
     <div>
       Apps
@@ -42,11 +37,11 @@ const App: FC = observer((props) => {
             right: "10px",
           }}
         >
-          <form onSubmit={handleSubmit}>
+          <div>
             <select
               multiple={true}
               onChange={(e) => {
-                console.warn(e.target.name, e.target.value);
+                console.warn(e.target.options, e.target.value);
               }}
             >
               <option value="platform">platform</option>
@@ -54,8 +49,10 @@ const App: FC = observer((props) => {
               <option value="module-b">module-b</option>
               <option value="module-c">module-c</option>
             </select>
-            <button type="submit">1231231</button>
-          </form>
+          </div>
+          <div>
+            <button type="submit">Подключить</button>
+          </div>
         </div>
       </div>
     </div>
