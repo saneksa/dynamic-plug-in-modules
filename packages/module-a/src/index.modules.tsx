@@ -1,9 +1,14 @@
-import { Expander, Module, type IModule } from "@saneksa/core/src/index";
+import {
+  EModuleNames,
+  Expander,
+  Module,
+  type IModule,
+} from "@saneksa/core/src/index";
 
 class ModuleA extends Module implements IModule {}
 
 const moduleAInstance = new ModuleA({
-  name: "module-a",
+  name: EModuleNames.moduleA,
   routesGetters: () => [
     {
       key: "module-a-1",

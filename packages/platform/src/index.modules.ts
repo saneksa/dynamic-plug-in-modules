@@ -1,10 +1,15 @@
-import { Expander, Module, type IModule } from "@saneksa/core/src/index";
+import {
+  EModuleNames,
+  Expander,
+  Module,
+  type IModule,
+} from "@saneksa/core/src/index";
 import { getPlatformEntrypoint } from ".";
 
 class PlatformModule extends Module implements IModule {}
 
 const platformModuleInstance = new PlatformModule({
-  name: "platform",
+  name: EModuleNames.platform,
   routesGetters: () => [
     {
       key: "platform-1",

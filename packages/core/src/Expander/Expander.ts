@@ -5,7 +5,7 @@ import {
   observable,
   runInAction,
 } from "mobx";
-import type { Module } from "..";
+import type { EModuleNames, Module } from "..";
 
 type TPrivateFields =
   | "_modules"
@@ -17,7 +17,7 @@ type TPrivateFields =
 class Expander {
   public static instance: Expander;
 
-  private _modules = new Map<string, Module>();
+  private _modules = new Map<EModuleNames, Module>();
   private _connectedModules = new Set<Module>();
 
   private _routes: any[] = [];
@@ -40,6 +40,7 @@ class Expander {
       clear: action.bound,
       modules: computed,
       connectedModules: computed,
+      connectedModuleNames: computed,
     });
   }
 
@@ -56,6 +57,14 @@ class Expander {
     return Array.from(this._connectedModules.values());
   }
 
+  public get connectedModuleNames() {
+    const names = new Set<string>();
+
+    this._connectedModules.forEach((m) => names.add(m.name));
+
+    return names;
+  }
+
   // -----------------------ACTIONS-------------------------------------
   public expandModules(module: Module) {
     this._modules.set(module.name, module);
@@ -67,11 +76,13 @@ class Expander {
     }
   }
 
-  public connectModules(moduleNames: string[]) {
+  public connectModules(moduleNames: EModuleNames[]) {
     this.build([...this.connectedModules.map((m) => m.name), ...moduleNames]);
+
+    return this;
   }
 
-  public disconnectModules(moduleNames: string[]) {
+  public disconnectModules(moduleNames: EModuleNames[]) {
     const moduleNamesSet = new Set(moduleNames);
 
     const connectModuleNames = this.connectedModules
@@ -79,6 +90,8 @@ class Expander {
       .map((m) => m.name);
 
     this.build(connectModuleNames);
+
+    return this;
   }
 
   private clear() {
@@ -88,8 +101,9 @@ class Expander {
 
   //---------------------HELPERS------------------------------
 
-  public build(moduleNames: string[]) {
+  public build(moduleNames: EModuleNames[]) {
     this.clear();
+
     moduleNames.forEach((name) => {
       const module = this._modules.get(name);
 

@@ -1,3 +1,5 @@
+import type { EModuleNames } from "..";
+
 type TRoute = {
   key: string;
   path: string;
@@ -9,7 +11,7 @@ type TError = {
 };
 
 type TModuleParams = {
-  name: string;
+  name: EModuleNames;
   routesGetters?: () => TRoute[];
   errorsGetters?: () => TError[];
   entrypointGetters?: () => void;
@@ -22,7 +24,7 @@ interface IModule {
 }
 
 abstract class Module implements IModule {
-  #name: string;
+  #name: EModuleNames;
   #routesGetters: (() => TRoute[]) | null;
   #errorsGetters: (() => TError[]) | null;
   #entrypointGetters: (() => void) | null;

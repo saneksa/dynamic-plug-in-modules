@@ -1,44 +1,32 @@
-import { Expander } from "@saneksa/core/src";
+import { EModuleNames, Expander } from "@saneksa/core/src";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import {
-  Select,
-  TOption,
-} from "@saneksa/platform/src/components/Select/Select";
-import { FC, useMemo, useRef, useState } from "react";
+import { ChangeEvent, FC, useMemo } from "react";
 
 const App: FC = observer((props) => {
-  console.warn(toJS(Expander.instance.routes));
+  console.warn(toJS(Expander.instance.connectedModules));
 
-  const options = useMemo(
-    () =>
-      [
-        {
-          caption: "platform",
-          value: "platform",
-        },
-        {
-          caption: "module-a",
-          value: "module-a",
-        },
-        {
-          caption: "module-b",
-          value: "module-b",
-        },
-        {
-          caption: "module-c",
-          value: "module-c",
-        },
-      ] as TOption[],
+  const moduleNames: EModuleNames[] = useMemo(
+    () => [
+      EModuleNames.platform,
+      EModuleNames.moduleA,
+      EModuleNames.moduleB,
+      EModuleNames.moduleC,
+    ],
     []
   );
 
-  const handleConnect = (moduleNames: string[]) => {
-    Expander.instance.connectModules(moduleNames);
-  };
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    const name = e.target.name as EModuleNames;
 
-  const handleDisconnect = (moduleNames: string[]) => {
-    Expander.instance.disconnectModules(moduleNames);
+    if (checked === true) {
+      Expander.instance.connectModules([name]);
+    }
+
+    if (checked === false) {
+      Expander.instance.disconnectModules([name]);
+    }
   };
 
   return (
@@ -53,34 +41,20 @@ const App: FC = observer((props) => {
           style={{
             position: "fixed",
             top: "10px",
-            right: "10px",
-            display: "flex",
-            flexDirection: "row",
+            left: "200px",
           }}
         >
-          <div
-            style={{
-              marginRight: "24px",
-            }}
-          >
-            <div>Список подключения модулей</div>
-
-            <Select
-              multiple={true}
-              options={options}
-              onChange={handleConnect}
-            />
-          </div>
-
-          <div>
-            <div>Список отключения модулей</div>
-
-            <Select
-              multiple={true}
-              options={options}
-              onChange={handleDisconnect}
-            />
-          </div>
+          {moduleNames.map((moduleName) => (
+            <div key={moduleName}>
+              <input
+                name={moduleName}
+                type="checkbox"
+                onChange={handleChange}
+                checked={Expander.instance.connectedModuleNames.has(moduleName)}
+              />
+              {moduleName}
+            </div>
+          ))}
         </div>
       </div>
     </div>
