@@ -36,7 +36,7 @@ class Expander {
       expandModules: action.bound,
       expandRoutes: action.bound,
       connectModules: action.bound,
-      disableModules: action.bound,
+      disconnectModules: action.bound,
       clear: action.bound,
       modules: computed,
       connectedModules: computed,
@@ -71,7 +71,7 @@ class Expander {
     this.build([...this.connectedModules.map((m) => m.name), ...moduleNames]);
   }
 
-  public disableModules(moduleNames: string[]) {
+  public disconnectModules(moduleNames: string[]) {
     const moduleNamesSet = new Set(moduleNames);
 
     const connectModuleNames = this.connectedModules

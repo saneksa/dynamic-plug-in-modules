@@ -1,26 +1,45 @@
 import { Expander } from "@saneksa/core/src";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import { FC, useCallback, useEffect, useState } from "react";
+import {
+  Select,
+  TOption,
+} from "@saneksa/platform/src/components/Select/Select";
+import { FC, useMemo, useRef, useState } from "react";
 
 const App: FC = observer((props) => {
-  const [count, setCount] = useState(0);
-
-  console.warn(toJS(Expander.instance.connectedModules));
   console.warn(toJS(Expander.instance.routes));
 
-  useEffect(() => {
-    if (count === 1) {
-      Expander.instance.build(["platform", "module-a"]);
-    } else if (count === 2) {
-      Expander.instance.build(["platform", "module-a", "module-b"]);
-    } else if (count === 3) {
-      Expander.instance.build(["platform", "module-a", "module-b", "module-c"]);
-    } else {
-      Expander.instance.build(["platform"]);
-      setCount(0);
-    }
-  }, [count]);
+  const options = useMemo(
+    () =>
+      [
+        {
+          caption: "platform",
+          value: "platform",
+        },
+        {
+          caption: "module-a",
+          value: "module-a",
+        },
+        {
+          caption: "module-b",
+          value: "module-b",
+        },
+        {
+          caption: "module-c",
+          value: "module-c",
+        },
+      ] as TOption[],
+    []
+  );
+
+  const handleConnect = (moduleNames: string[]) => {
+    Expander.instance.connectModules(moduleNames);
+  };
+
+  const handleDisconnect = (moduleNames: string[]) => {
+    Expander.instance.disconnectModules(moduleNames);
+  };
 
   return (
     <div>
@@ -35,23 +54,32 @@ const App: FC = observer((props) => {
             position: "fixed",
             top: "10px",
             right: "10px",
+            display: "flex",
+            flexDirection: "row",
           }}
         >
-          <div>
-            <select
+          <div
+            style={{
+              marginRight: "24px",
+            }}
+          >
+            <div>Список подключения модулей</div>
+
+            <Select
               multiple={true}
-              onChange={(e) => {
-                console.warn(e.target.options, e.target.value);
-              }}
-            >
-              <option value="platform">platform</option>
-              <option value="module-a">module-a</option>
-              <option value="module-b">module-b</option>
-              <option value="module-c">module-c</option>
-            </select>
+              options={options}
+              onChange={handleConnect}
+            />
           </div>
+
           <div>
-            <button type="submit">Подключить</button>
+            <div>Список отключения модулей</div>
+
+            <Select
+              multiple={true}
+              options={options}
+              onChange={handleDisconnect}
+            />
           </div>
         </div>
       </div>
