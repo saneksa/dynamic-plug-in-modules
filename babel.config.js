@@ -12,6 +12,7 @@ module.exports = {
   plugins: [
     ["@babel/plugin-proposal-class-properties", { loose: false }],
     "@babel/proposal-object-rest-spread",
+    "@babel/plugin-transform-runtime",
   ],
   assumptions: {
     setPublicClassFields: false,
