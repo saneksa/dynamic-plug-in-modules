@@ -44,7 +44,6 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Dynamically connect modules",
       template: "./assets/index.html",
     }),
     new ForkTsCheckerWebpackPlugin({
