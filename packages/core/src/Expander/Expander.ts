@@ -17,18 +17,17 @@ type TPrivateFields =
 class Expander {
   public static instance: Expander;
 
-  private _modules = new Map<EModuleNames, Module>();
-  private _connectedModules = new Set<Module>();
-
-  private _routes: any[] = [];
-
   static {
     if (!this.instance) {
       this.instance = new Expander();
     }
   }
 
-  constructor() {
+  private _modules = new Map<EModuleNames, Module>();
+  private _connectedModules = new Set<Module>();
+  private _routes: any[] = [];
+
+  private constructor() {
     makeObservable<this, TPrivateFields>(this, {
       _modules: observable,
       _routes: observable,
@@ -58,7 +57,7 @@ class Expander {
   }
 
   public get connectedModuleNames() {
-    const names = new Set<string>();
+    const names = new Set<EModuleNames>();
 
     this._connectedModules.forEach((m) => names.add(m.name));
 

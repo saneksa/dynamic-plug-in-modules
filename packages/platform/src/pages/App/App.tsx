@@ -1,20 +1,10 @@
 import { EModuleNames, Expander } from "@saneksa/core/src";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import { ChangeEvent, FC, useMemo } from "react";
+import type { ChangeEvent, FC } from "react";
 
-const App: FC = observer((props) => {
+const App: FC = observer(() => {
   console.warn(toJS(Expander.instance.connectedModules));
-
-  const moduleNames: EModuleNames[] = useMemo(
-    () => [
-      EModuleNames.platform,
-      EModuleNames.moduleA,
-      EModuleNames.moduleB,
-      EModuleNames.moduleC,
-    ],
-    []
-  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
@@ -44,15 +34,17 @@ const App: FC = observer((props) => {
             left: "200px",
           }}
         >
-          {moduleNames.map((moduleName) => (
-            <div key={moduleName}>
+          {Expander.instance.modules.map((module) => (
+            <div key={module.name}>
               <input
-                name={moduleName}
+                name={module.name}
                 type="checkbox"
                 onChange={handleChange}
-                checked={Expander.instance.connectedModuleNames.has(moduleName)}
+                checked={Expander.instance.connectedModuleNames.has(
+                  module.name
+                )}
               />
-              {moduleName}
+              {module.name}
             </div>
           ))}
         </div>
