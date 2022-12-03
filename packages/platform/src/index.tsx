@@ -1,13 +1,22 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot, Root } from "react-dom/client";
 import { App } from "./pages/App/App";
 
-export const getPlatformEntrypoint = () =>
-  ReactDOM.render(
-    <React.StrictMode>
-      <div>
-        <App />
-      </div>
-    </React.StrictMode>,
-    document.getElementById("root")
-  );
+const container = document.getElementById("root");
+
+let root: Root | null = null;
+
+if (container) {
+  root = createRoot(container);
+}
+
+export const getPlatformEntrypoint = () => {
+  root &&
+    root.render(
+      <React.StrictMode>
+        <div>
+          <App />
+        </div>
+      </React.StrictMode>
+    );
+};
