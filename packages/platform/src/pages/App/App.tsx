@@ -20,34 +20,37 @@ const App: FC = observer(() => {
   };
 
   return (
-    <div>
-      Apps
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        columnGap: "100px",
+      }}
+    >
       <div>
+        <div>Apps</div>
+
         {Expander.instance.connectedModules.map((m) => (
           <div key={m.name}>{m.name}</div>
         ))}
+      </div>
 
-        <div
-          style={{
-            position: "fixed",
-            top: "10px",
-            left: "200px",
-          }}
-        >
-          {Expander.instance.modules.map((module) => (
-            <div key={module.name}>
-              <input
-                name={module.name}
-                type="checkbox"
-                onChange={handleChange}
-                checked={Expander.instance.connectedModuleNames.has(
-                  module.name
-                )}
-              />
-              {module.name}
-            </div>
-          ))}
-        </div>
+      <div>
+        {Expander.instance.modules.map((module) => (
+          <div key={module.name}>
+            <input
+              name={module.name}
+              type="checkbox"
+              onChange={handleChange}
+              checked={Expander.instance.connectedModuleNames.has(module.name)}
+            />
+            {module.name}
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <button onClick={Expander.instance.destroy}>Destroy</button>
       </div>
     </div>
   );

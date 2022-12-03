@@ -10,24 +10,29 @@ type TError = {
   message: string;
 };
 
+type TEntrypoint = {
+  mount: () => void;
+  unmount: () => void;
+};
+
 type TModuleParams = {
   name: EModuleNames;
   routesGetters?: () => TRoute[];
   errorsGetters?: () => TError[];
-  entrypointGetters?: () => void;
+  entrypointGetters?: () => TEntrypoint;
 };
 
 interface IModule {
   getRoutesGetters(): (() => TRoute[]) | null;
   getErrorsGetters(): (() => TError[]) | null;
-  getEntrypointGetters(): (() => void) | null;
+  getEntrypointGetters(): (() => TEntrypoint) | null;
 }
 
 abstract class Module implements IModule {
   #name: EModuleNames;
   #routesGetters: (() => TRoute[]) | null;
   #errorsGetters: (() => TError[]) | null;
-  #entrypointGetters: (() => void) | null;
+  #entrypointGetters: (() => TEntrypoint) | null;
 
   constructor(params: TModuleParams) {
     this.#name = params.name;

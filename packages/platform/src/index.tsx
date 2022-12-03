@@ -2,21 +2,25 @@ import React from "react";
 import { createRoot, Root } from "react-dom/client";
 import { App } from "./pages/App/App";
 
-const container = document.getElementById("root");
-
 let root: Root | null = null;
 
-if (container) {
-  root = createRoot(container);
-}
+export const getPlatformEntrypoint = () => ({
+  mount: () => {
+    const container = document.getElementById("root");
 
-export const getPlatformEntrypoint = () => {
-  root &&
-    root.render(
+    if (container && container.childElementCount === 0) {
+      root = createRoot(container);
+    }
+
+    root?.render(
       <React.StrictMode>
         <div>
           <App />
         </div>
       </React.StrictMode>
     );
-};
+  },
+  unmount: () => {
+    root?.unmount();
+  },
+});

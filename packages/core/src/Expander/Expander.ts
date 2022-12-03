@@ -36,6 +36,7 @@ class Expander {
       expandRoutes: action.bound,
       connectModules: action.bound,
       disconnectModules: action.bound,
+      destroy: action.bound,
       clear: action.bound,
       modules: computed,
       connectedModules: computed,
@@ -94,8 +95,18 @@ class Expander {
   }
 
   private clear() {
+    this._connectedModules.forEach((module) => {
+      if (module) {
+        module.getEntrypointGetters()?.()?.unmount?.();
+      }
+    });
+
     this._connectedModules.clear();
     this._routes = [];
+  }
+
+  public destroy() {
+    this.clear();
   }
 
   //---------------------HELPERS------------------------------
@@ -119,7 +130,7 @@ class Expander {
       const module = this._modules.get(name);
 
       if (module) {
-        module.getEntrypointGetters()?.();
+        module.getEntrypointGetters()?.()?.mount?.();
       }
     });
   }
