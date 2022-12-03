@@ -12,6 +12,12 @@ function importAll(ctx: __WebpackModuleApi.RequireContext) {
   ctx.keys().forEach(ctx);
 }
 
+declare global {
+  interface Window {
+    modules: Expander;
+  }
+}
+
 export * from "./Expander/Expander";
 export * from "./Module/Module";
 
@@ -29,6 +35,8 @@ const run = async () => {
   importAll(require.context("../../", true, /index.modules\.tsx?$/));
 
   Expander.instance.build([EModuleNames.platform]);
+
+  window.modules = Expander.instance;
 };
 
 run();
