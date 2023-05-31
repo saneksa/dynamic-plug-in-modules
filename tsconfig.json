@@ -20,8 +20,6 @@
     "isolatedModules": true,
     "composite": true,
     "jsx": "react-jsx",
-    "locale": "en",
-    "importsNotUsedAsValues": "error",
     "incremental": true
   },
   "include": ["./packages"],
