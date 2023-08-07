@@ -98,7 +98,7 @@ module.exports = {
       },
     },
     runtimeChunk: {
-      name: (entrypoint) => `runtime-${entrypoint.name}`,
+      name: `runtime`,
     },
     minimizer: [
       new TerserWebpackPlugin({
