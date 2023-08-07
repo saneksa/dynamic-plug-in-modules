@@ -1,7 +1,7 @@
 import { configure } from "mobx";
 
 configure({
-  useProxies: "never",
+  useProxies: "always",
 });
 
 import { Expander } from "./Expander/Expander";
