@@ -32,7 +32,7 @@ export enum EModuleNames {
 }
 
 const run = async () => {
-  importAll(require.context("../../", true, /index.modules\.tsx?$/));
+  // importAll(require.context("../../", true, /index.modules\.tsx?$/));
 
   Expander.instance.build([EModuleNames.platform]);
 
