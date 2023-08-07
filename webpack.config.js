@@ -5,6 +5,7 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const CircularDependencyPlugin = require("circular-dependency-plugin");
 
 const mode = process.env.NODE_ENV;
 const isDevelopment = process.env.NODE_ENV === "development";
@@ -68,6 +69,21 @@ module.exports = {
       new ReactRefreshWebpackPlugin({
         overlay: false,
       }),
+    new CircularDependencyPlugin({
+      exclude: /node_modules/,
+
+      onStart({ compilation }) {
+        console.log("start detecting webpack modules cycles");
+      },
+
+      onDetected({ module: webpackModuleRecord, paths, compilation }) {
+        compilation.errors.push(new webpack.WebpackError(paths.join(" -> ")));
+      },
+
+      onEnd({ compilation }) {
+        console.log("end detecting webpack modules cycles");
+      },
+    }),
   ].filter(Boolean),
   optimization: {
     minimize: true,

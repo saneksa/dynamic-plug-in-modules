@@ -2,8 +2,8 @@
   "extends": "../../tsconfig.json",
   "include": ["src"],
   "references": [
-    { "path": "../core" },
-    { "path": "../platform" },
-    { "path": "../module-a" }
+    { "path": "../core/tsconfig.json" },
+    { "path": "../platform/tsconfig.json" },
+    { "path": "../module-a/tsconfig.json" }
   ]
 }

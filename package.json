@@ -6,7 +6,10 @@
     "start": "cross-env NODE_ENV='development' webpack serve",
     "build": "cross-env NODE_ENV='production' webpack"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
   "devDependencies": {
     "@babel/core": "7.22.10",
     "@babel/plugin-proposal-class-properties": "7.18.6",
@@ -23,14 +26,13 @@
     "@types/react-dom": "18.2.7",
     "@types/webpack-env": "1.18.1",
     "babel-loader": "9.1.3",
+    "circular-dependency-plugin": "^5.2.2",
     "cross-env": "7.0.3",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "fork-ts-checker-webpack-plugin": "8.0.0",
     "html-webpack-plugin": "5.5.3",
     "lerna": "7.1.4",
     "prettier": "3.0.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "react-refresh": "0.14.0",
     "terser-webpack-plugin": "^5.3.9",
     "typescript": "5.1.6",
