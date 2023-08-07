@@ -17,7 +17,7 @@ const moduleCInstance = new ModuleC({
     {
       key: "module-c-2",
       path: "module-c-2",
-    }, 
+    },
   ],
   errorsGetters: () => [
     {

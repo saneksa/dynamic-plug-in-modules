@@ -8,8 +8,6 @@ export const getPlatformEntrypoint = () => ({
   mount: () => {
     const container = document.getElementById("root");
 
-    console.warn("12312312");
-
     if (container && container.childElementCount === 0) {
       root = createRoot(container);
     }

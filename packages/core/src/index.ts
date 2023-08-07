@@ -31,12 +31,4 @@ export enum EModuleNames {
   moduleC = "module-c",
 }
 
-const run = async () => {
-  // importAll(require.context("../../", true, /index.modules\.tsx?$/));
-
-  Expander.instance.build([EModuleNames.platform]);
-
-  window.modules = Expander.instance;
-};
-
-run();
+window.modules = Expander.instance;
