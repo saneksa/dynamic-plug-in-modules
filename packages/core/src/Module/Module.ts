@@ -1,4 +1,4 @@
-import type { EModuleNames } from "..";
+import { EModuleNames } from "@saneksa/core/src/const";
 
 type TRoute = {
   key: string;
@@ -15,7 +15,7 @@ type TEntrypoint = {
   unmount: () => void;
 };
 
-type TModuleParams = {
+export type TModuleParams = {
   name: EModuleNames;
   routesGetters?: () => TRoute[];
   errorsGetters?: () => TError[];
@@ -28,7 +28,7 @@ interface IModule {
   getEntrypointGetters(): (() => TEntrypoint) | null;
 }
 
-abstract class Module implements IModule {
+class Module implements IModule {
   #name: EModuleNames;
   #routesGetters: (() => TRoute[]) | null;
   #errorsGetters: (() => TError[]) | null;

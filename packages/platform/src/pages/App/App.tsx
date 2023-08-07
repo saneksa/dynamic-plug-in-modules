@@ -1,4 +1,4 @@
-import type { EModuleNames } from "@saneksa/core/src";
+import { EModuleNames } from "@saneksa/core/src/const";
 import { observer } from "mobx-react";
 import type { ChangeEvent, FC } from "react";
 

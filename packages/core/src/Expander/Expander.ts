@@ -5,7 +5,8 @@ import {
   observable,
   runInAction,
 } from "mobx";
-import type { EModuleNames, Module } from "..";
+import type { Module } from "..";
+import { EModuleNames } from "@saneksa/core/src/const";
 
 type TPrivateFields =
   | "_modules"
