@@ -7,9 +7,9 @@ import {
 import { EModuleNames } from "@saneksa/core/src/const";
 import { getPlatformEntrypoint } from ".";
 
-// class PlatformModule extends Module implements IModule {}
+class PlatformModule extends Module implements IModule {}
 
-const platformModuleInstance = new Module({
+const platformModuleInstance = new PlatformModule({
   name: EModuleNames.platform,
   routesGetters: () => [
     {

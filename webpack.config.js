@@ -10,11 +10,15 @@ const CircularDependencyPlugin = require("circular-dependency-plugin");
 const mode = process.env.NODE_ENV;
 const isDevelopment = process.env.NODE_ENV === "development";
 
+/**
+ * @type {import("webpack").Configuration}
+ */
+
 module.exports = {
   mode,
   context: __dirname,
   entry: {
-    app: "./packages/core/src/index.ts",
+    core: "./packages/core/src/index.ts",
     platform: "./packages/platform/src/index.modules.ts",
     moduleA: "./packages/module-a/src/index.modules.tsx",
     moduleB: "./packages/module-b/src/index.modules.tsx",
@@ -23,6 +27,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
+    filename: isDevelopment ? "[name].js" : "[name]_[contenthash].js",
+    clean: true,
   },
   target: isDevelopment ? "web" : "browserslist",
   module: {
@@ -90,10 +96,15 @@ module.exports = {
     splitChunks: {
       chunks: "all",
       maxSize: Infinity,
+      minSize: 0,
       cacheGroups: {
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           name: "node_modules",
+        },
+        coreapp: {
+          test: /[\\/]packages\/core[\\/]/,
+          name: "coreapp",
         },
       },
     },

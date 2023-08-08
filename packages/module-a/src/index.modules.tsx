@@ -6,9 +6,9 @@ import {
   TModuleParams,
 } from "@saneksa/core/src/index";
 
-// class ModuleA extends Module implements IModule {}
+ class ModuleA extends Module implements IModule {}
 
-const moduleAInstance = new Module({
+const moduleAInstance = new ModuleA({
   name: EModuleNames.moduleA,
   routesGetters: () => [
     {
